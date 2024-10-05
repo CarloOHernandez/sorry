@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sorry</title>
   <style>
     body {
@@ -17,7 +15,7 @@
     }
 
     .card {
-      background: #fff;
+      background: blue;
       border-radius: 10px;
       padding: 40px;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -195,18 +193,42 @@
     }
 
     function moveNoButton() {
-      const noButton = document.getElementById('noButton');
-      const buttonWidth = noButton.offsetWidth;
-      const buttonHeight = noButton.offsetHeight;
+  const noButton = document.getElementById('noButton');
+  const buttonWidth = noButton.offsetWidth;
+  const buttonHeight = noButton.offsetHeight;
 
-      // Ensure button stays within screen boundaries
-      const randomX = Math.random() * (window.innerWidth - buttonWidth);
-      const randomY = Math.random() * (window.innerHeight - buttonHeight);
+  // Get the card's position
+  const card = document.querySelector('.card');
+  const cardRect = card.getBoundingClientRect();
 
-      noButton.style.left = `${randomX}px`;
-      noButton.style.top = `${randomY}px`;
-      noButton.style.position = 'absolute'; // Absolute positioning only when moving
-    }
+  // Calculate the limits for the button movement
+  const minX = cardRect.left - 50; // Move slightly left
+  const maxX = cardRect.right + 50 - buttonWidth; // Move slightly right
+  const minY = cardRect.top - 50; // Move slightly up
+  const maxY = cardRect.bottom + 50 - buttonHeight; // Move slightly down
+
+  let randomX, randomY;
+  let overlap;
+
+  do {
+    // Generate random positions within the limits
+    randomX = Math.random() * (maxX - minX) + minX;
+    randomY = Math.random() * (maxY - minY) + minY;
+
+    // Check for overlap with the card
+    overlap = (
+      randomX < cardRect.right &&
+      randomX + buttonWidth > cardRect.left &&
+      randomY < cardRect.bottom &&
+      randomY + buttonHeight > cardRect.top
+    );
+  } while (overlap); // Repeat until we find a non-overlapping position
+
+  noButton.style.left = `${randomX}px`;
+  noButton.style.top = `${randomY}px`;
+  noButton.style.position = 'absolute'; // Absolute positioning only when moving
+}
+
   </script>
 
 </body>
