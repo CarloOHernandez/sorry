@@ -23,6 +23,7 @@
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       text-align: center;
       animation: float 4s infinite ease-in-out;
+      position: relative; /* Position relative to contain absolutely positioned children */
     }
 
     h1 {
@@ -144,7 +145,6 @@
       color: #ff7b7b;
       display: none; /* Initially hidden */
     }
-
   </style>
 </head>
 <body>
@@ -195,41 +195,28 @@
     }
 
     function moveNoButton() {
-  const noButton = document.getElementById('noButton');
-  const buttonWidth = noButton.offsetWidth;
-  const buttonHeight = noButton.offsetHeight;
+      const noButton = document.getElementById('noButton');
+      const buttonWidth = noButton.offsetWidth;
+      const buttonHeight = noButton.offsetHeight;
 
-  // Get the card's position
-  const card = document.querySelector('.card');
-  const cardRect = card.getBoundingClientRect();
+      // Get the card's position
+      const card = document.querySelector('.card');
+      const cardRect = card.getBoundingClientRect();
 
-  // Calculate the limits for the button movement
-  const minX = cardRect.left - 50; // Move slightly left
-  const maxX = cardRect.right + 50 - buttonWidth; // Move slightly right
-  const minY = cardRect.top - 50; // Move slightly up
-  const maxY = cardRect.bottom + 50 - buttonHeight; // Move slightly down
+      // Calculate the limits for the button movement
+      const minX = cardRect.left; // Left boundary
+      const maxX = cardRect.right - buttonWidth; // Right boundary
+      const minY = cardRect.top; // Top boundary
+      const maxY = cardRect.bottom - buttonHeight; // Bottom boundary
 
-  let randomX, randomY;
-  let overlap;
+      // Generate random positions within the limits
+      const randomX = Math.random() * (maxX - minX) + minX;
+      const randomY = Math.random() * (maxY - minY) + minY;
 
-  do {
-    // Generate random positions within the limits
-    randomX = Math.random() * (maxX - minX) + minX;
-    randomY = Math.random() * (maxY - minY) + minY;
-
-    // Check for overlap with the card
-    overlap = (
-      randomX < cardRect.right &&
-      randomX + buttonWidth > cardRect.left &&
-      randomY < cardRect.bottom &&
-      randomY + buttonHeight > cardRect.top
-    );
-  } while (overlap); // Repeat until we find a non-overlapping position
-
-  noButton.style.left = `${randomX}px`;
-  noButton.style.top = `${randomY}px`;
-  noButton.style.position = 'absolute'; // Absolute positioning only when moving
-}
+      noButton.style.left = `${randomX}px`;
+      noButton.style.top = `${randomY}px`;
+      noButton.style.position = 'absolute'; // Position it absolutely within the card
+    }
 
   </script>
 
