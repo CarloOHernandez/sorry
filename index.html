@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorry</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #ffafbd, #ffc3a0);
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 40px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      animation: float 4s infinite ease-in-out;
+    }
+
+    h1 {
+      color: #ff7b7b;
+      font-size: 3em;
+      margin-bottom: 0;
+      animation: popIn 1s forwards;
+    }
+
+    p {
+      color: #333;
+      font-size: 1.2em;
+      margin: 10px 0;
+      animation: fadeIn 2s forwards;
+    }
+
+    .heart {
+      font-size: 5em;
+      color: #ff69b4; /* Pink heart color */
+      animation: beat 1s infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes beat {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 20px;
+      background-color: #ff7b7b;
+      color: white;
+      border-radius: 25px;
+      text-decoration: none;
+      font-size: 1.2em;
+      animation: popIn 3s forwards;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #ff4949;
+    }
+
+    #buttons {
+      display: flex;
+      justify-content: center;
+      gap: 50px; /* Adjust gap size for space */
+      margin-top: 20px;
+    }
+
+    #noButton {
+      position: relative; /* Relative so it stays within the centered container */
+      transition: all 0.5s ease;
+    }
+
+    .pop-heart {
+      font-size: 4em;
+      color: #ff69b4; /* Pink hearts */
+      position: absolute;
+      animation: rise 2s ease-in-out forwards;
+    }
+
+    @keyframes rise {
+      0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(100px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1.5) translateY(-200px);
+      }
+    }
+
+    /* Popup message styling */
+    .popup-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      font-size: 1.5em;
+      color: #ff7b7b;
+      display: none; /* Initially hidden */
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>I'm Sorry Maria</h1>
+    <p>Will you forgive me?...</p>
+    <div class="heart">❤️</div>
+    <div id="buttons">
+      <a href="#" class="button" onclick="yesClicked()">Yes</a>
+      <a href="#" id="noButton" class="button" onclick="moveNoButton()">No</a>
+    </div>
+  </div>
+
+  <!-- Popup Message -->
+  <div id="popupMessage" class="popup-message">sya unblock mo na po ako sa messenger 😍</div>
+
+  <script>
+    function yesClicked() {
+      let heartCount = 10; // Number of hearts to pop up
+      for (let i = 0; i < heartCount; i++) {
+        setTimeout(() => {
+          createHeart();
+        }, i * 100); // Delay each heart by 100ms for a nice effect
+      }
+
+      // Show the popup message
+      const popupMessage = document.getElementById('popupMessage');
+      popupMessage.style.display = 'block'; // Show the message
+
+      // Hide the message after 3 seconds
+      setTimeout(() => {
+        popupMessage.style.display = 'none'; // Hide it after 3 seconds
+      }, 3000);
+    }
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.textContent = '💖'; // Pink heart emoji
+      heart.classList.add('pop-heart');
+      heart.style.left = `${Math.random() * window.innerWidth}px`;
+      heart.style.top = `${Math.random() * window.innerHeight}px`;
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 2000); // Removes each heart after the animation
+    }
+
+    function moveNoButton() {
+      const noButton = document.getElementById('noButton');
+      const buttonWidth = noButton.offsetWidth;
+      const buttonHeight = noButton.offsetHeight;
+
+      // Ensure button stays within screen boundaries
+      const randomX = Math.random() * (window.innerWidth - buttonWidth);
+      const randomY = Math.random() * (window.innerHeight - buttonHeight);
+
+      noButton.style.left = `${randomX}px`;
+      noButton.style.top = `${randomY}px`;
+      noButton.style.position = 'absolute'; // Absolute positioning only when moving
+    }
+  </script>
+
+</body>
+</html>
